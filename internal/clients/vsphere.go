@@ -25,6 +25,10 @@ const (
 	errTrackUsage           = "cannot track ProviderConfig usage"
 	errExtractCredentials   = "cannot extract credentials"
 	errUnmarshalCredentials = "cannot unmarshal template credentials as JSON"
+	vsphereServer           = "vsphere_server"
+	user                    = "user"
+	password                = "password"
+	allowUnverifiedSSL      = "allow_unverified_ssl"
 )
 
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
@@ -63,10 +67,12 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 		}
 
 		// Set credentials in Terraform provider configuration.
-		/*ps.Configuration = map[string]any{
-			"username": creds["username"],
-			"password": creds["password"],
-		}*/
+		ps.Configuration = map[string]any{
+			"user":                 creds["user"],
+			"password":             creds["password"],
+			"allow_unverified_ssl": creds["allow_unverified_ssl"],
+			"vsphere_server":       creds["vsphere_server"],
+		}
 		return ps, nil
 	}
 }
